@@ -18,6 +18,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:huawei_health/src/hihealth/data/auth_huawei_id.dart';
 
 import '../../../huawei_health.dart';
 

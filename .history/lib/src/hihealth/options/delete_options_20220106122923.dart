@@ -17,6 +17,9 @@
 import 'dart:ui';
 
 import 'package:huawei_health/huawei_health.dart';
+import 'package:huawei_health/src/hihealth/data/activity_record.dart';
+import 'package:huawei_health/src/hihealth/data/data_collector.dart';
+import 'package:huawei_health/src/hihealth/data/data_type.dart';
 import 'package:huawei_health/src/hihealth/util/util.dart';
 
 /// Defines the delete options for an [ActivityRecord] delete process.
@@ -45,16 +48,29 @@ class DeleteOptions {
   /// TimeUnit for data to be deleted.
   TimeUnit? timeUnit = TimeUnit.MILLISECONDS;
 
-  DeleteOptions({this.startTime, this.endTime, this.dataTypes, this.dataCollectors, this.activityRecords, this.deleteAllActivityRecords, this.deleteAllData, this.timeUnit});
+  DeleteOptions(
+      {this.startTime,
+      this.endTime,
+      this.dataTypes,
+      this.dataCollectors,
+      this.activityRecords,
+      this.deleteAllActivityRecords,
+      this.deleteAllData,
+      this.timeUnit});
 
   Map<String, dynamic> toMap() {
     return {
       "startTime": startTime?.millisecondsSinceEpoch,
       "endTime": endTime?.millisecondsSinceEpoch,
       "timeUnit": timeUnit,
-      "dataTypes": dataTypes != null ? List.from(dataTypes!.map((e) => e.toMap())) : null,
-      "dataCollectors": dataCollectors != null ? List.from(dataCollectors!.map((e) => e.toMap())) : null,
-      "activityRecords": activityRecords != null ? List.from(activityRecords!.map((e) => e.toMap())) : null,
+      "dataTypes":
+          dataTypes != null ? List.from(dataTypes!.map((e) => e.toMap())) : null,
+      "dataCollectors": dataCollectors != null
+          ? List.from(dataCollectors!.map((e) => e.toMap()))
+          : null,
+      "activityRecords": activityRecords != null
+          ? List.from(activityRecords!.map((e) => e.toMap()))
+          : null,
       "deleteAllActivityRecords": deleteAllActivityRecords,
       "deleteAllData": deleteAllData
     }..removeWhere((k, v) => v == null);
@@ -76,15 +92,36 @@ class DeleteOptions {
 
   @override
   bool operator ==(Object other) {
-    if (isTypeEqual(this, other) && other is DeleteOptions) {
-      DeleteOptions compare = other;
-      List<dynamic> currentArgs = [deleteAllData, deleteAllActivityRecords, activityRecords, dataCollectors, dataTypes, startTime, endTime];
-      List<dynamic> otherArgs = [compare.deleteAllData, compare.deleteAllActivityRecords, compare.activityRecords, compare.dataCollectors, compare.dataTypes, compare.startTime, compare.endTime];
-      return isEquals(this, other, currentArgs, otherArgs);
-    }
-    return false;
+    if (!isTypeEqual(this, other)) return false;
+    DeleteOptions compare = other as DeleteOptions;
+    List<dynamic> currentArgs = [
+      deleteAllData,
+      deleteAllActivityRecords,
+      activityRecords,
+      dataCollectors,
+      dataTypes,
+      startTime,
+      endTime
+    ];
+    List<dynamic> otherArgs = [
+      compare.deleteAllData,
+      compare.deleteAllActivityRecords,
+      compare.activityRecords,
+      compare.dataCollectors,
+      compare.dataTypes,
+      compare.startTime,
+      compare.endTime
+    ];
+    return isEquals(this, other, currentArgs, otherArgs);
   }
 
   @override
-  int get hashCode => hashValues(deleteAllData, deleteAllActivityRecords, hashList(activityRecords), hashList(dataCollectors), hashList(dataTypes), startTime, endTime);
+  int get hashCode => hashValues(
+      deleteAllData,
+      deleteAllActivityRecords,
+      hashList(activityRecords),
+      hashList(dataCollectors),
+      hashList(dataTypes),
+      startTime,
+      endTime);
 }

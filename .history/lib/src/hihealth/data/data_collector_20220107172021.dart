@@ -168,7 +168,7 @@ class DataCollector {
 
   @override
   bool operator ==(Object other) {
-    if (isTypeEqual(this, other) && other is DataCollector) {
+    if (!isTypeEqual(this, other) && other is DataCollector) {
       DataCollector compare = other;
       List<dynamic> currentArgs = [name, dataGenerateType, dataStreamName, dataStreamId, dataType, deviceId, deviceInfo, isLocalized, packageName];
       List<dynamic> otherArgs = [

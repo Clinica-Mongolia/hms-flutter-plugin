@@ -39,7 +39,6 @@ class ActivityRecordInsertOptions {
       ];
       return isEquals(this, other, currentArgs, otherArgs);
     }
-    return false;
   }
 
   /// Calculates the ActivityRecordInsertOptions hash value.

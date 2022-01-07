@@ -594,7 +594,7 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
           decoration: InputDecoration(enabledBorder: InputBorder.none),
         ),
       ),
-      TextButton(
+      OutlineButton(
         child: Text('Clear Log'),
         onPressed: () => setState(
           () {
@@ -613,11 +613,11 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         label: 'Close',
         textColor: Colors.white,
         onPressed: () {
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.removeCurrentSnackBar;
         },
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -664,20 +664,15 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
                   Container(
                     padding: componentPadding,
                     width: double.infinity,
-                    child: ElevatedButton(
-                        child: Text(
-                          'SignIn',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () => signIn(context),
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                        )),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      child: Text(
+                        'SignIn',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => signIn(context),
+                      color: Colors.blue,
+                    ),
                   ),
                 ],
               ),

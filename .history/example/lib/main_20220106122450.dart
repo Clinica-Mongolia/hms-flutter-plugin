@@ -30,7 +30,8 @@ class HealthKitDemo extends StatefulWidget {
 
 class _HealthKitDemoState extends State<HealthKitDemo> {
   /// Styles
-  static const TextStyle cardTitleTextStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 18);
+  static const TextStyle cardTitleTextStyle =
+      TextStyle(fontWeight: FontWeight.w500, fontSize: 18);
   static const EdgeInsets componentPadding = EdgeInsets.all(8.0);
 
   /// Text Controllers for showing the logs of different modules
@@ -58,7 +59,9 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   }
 
   /// Prints the specified text on both the console and the specified text controller.
-  void log(String methodName, TextEditingController controller, LogOptions logOption, {String result = "", String error = ""}) {
+  void log(
+      String methodName, TextEditingController controller, LogOptions logOption,
+      {String result = "", String error = ""}) {
     String log = "";
     switch (logOption) {
       case LogOptions.call:
@@ -68,7 +71,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         log = methodName + " [Success: $result] ";
         break;
       case LogOptions.error:
-        log = methodName + "[Error: $error] [Error Description: ${HiHealthStatusCodes.getStatusCodeMessage(error)}]";
+        log = methodName +
+            "[Error: $error] [Error Description: ${HiHealthStatusCodes.getStatusCodeMessage(error)}]";
         break;
       case LogOptions.custom:
         log = methodName; // Custom text
@@ -108,11 +112,15 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     ];
     try {
       AuthHuaweiId result = await HealthAuth.signIn(scopes);
-      print("Granted Scopes for User(${result.displayName}): " + result.grantedScopes.toString());
+      print("Granted Scopes for User(${result.displayName}): " +
+          result.grantedScopes.toString());
       showSnackBar('Authorization Success.', context, color: Colors.green);
     } on PlatformException catch (e) {
       print("Error on authorization, Error:${e.toString()}");
-      showSnackBar("Error on authorization, Error:${e.toString()}, Error Description: " + "${HiHealthStatusCodes.getStatusCodeMessage(e.message)}", context);
+      showSnackBar(
+          "Error on authorization, Error:${e.toString()}, Error Description: " +
+              "${HiHealthStatusCodes.getStatusCodeMessage(e.message)}",
+          context);
     }
   }
 
@@ -136,7 +144,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       description: 'This is a test for ActivityRecord',
       // Optional Activity Summary
       activitySummary: ActivitySummary(
-          paceSummary: PaceSummary(avgPace: 247.27626, bestPace: 212, britishPaceMap: {
+          paceSummary:
+              PaceSummary(avgPace: 247.27626, bestPace: 212, britishPaceMap: {
             "50001893": 365.0,
           }, britishPartTimeMap: {
             "1.0": 263.0
@@ -152,25 +161,39 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
                 startTime: startTime,
                 endTime: endTime,
                 fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 100),
-                dataCollector: DataCollector(dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, dataGenerateType: DataGenerateType.DATA_TYPE_RAW))
+                dataCollector: DataCollector(
+                    dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+                    dataGenerateType: DataGenerateType.DATA_TYPE_RAW))
           ]),
     );
 
     // Build the dataCollector object
-    DataCollector dataCollector = DataCollector(dataGenerateType: DataGenerateType.DATA_TYPE_RAW, dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, name: 'AddActivityRecord1923');
+    DataCollector dataCollector = DataCollector(
+        dataGenerateType: DataGenerateType.DATA_TYPE_RAW,
+        dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+        name: 'AddActivityRecord1923');
 
     // You can use sampleSets to add more sample points to the sampling dataset.
     // Build a list of sampling point objects and add it to the sampling dataSet
-    List<SamplePoint> samplePoints = [SamplePoint(startTime: startTime, endTime: endTime, fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 1024), timeUnit: TimeUnit.MILLISECONDS)];
+    List<SamplePoint> samplePoints = [
+      SamplePoint(
+          startTime: startTime,
+          endTime: endTime,
+          fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 1024),
+          timeUnit: TimeUnit.MILLISECONDS)
+    ];
     SampleSet sampleSet = SampleSet(dataCollector, samplePoints);
 
     try {
       String result = await ActivityRecordsController.addActivityRecord(
-        ActivityRecordInsertOptions(activityRecord: activityRecord, sampleSets: [sampleSet]),
+        ActivityRecordInsertOptions(
+            activityRecord: activityRecord, sampleSets: [sampleSet]),
       );
-      log("addActivityRecord", _activityTextController, LogOptions.success, result: result);
+      log("addActivityRecord", _activityTextController, LogOptions.success,
+          result: result);
     } on PlatformException catch (e) {
-      log("addActivityRecord", _activityTextController, LogOptions.error, error: e.message);
+      log("addActivityRecord", _activityTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -184,7 +207,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     // Create end time that will be used to read activity record.
     DateTime endTime = DateTime.now().add(Duration(hours: 3));
 
-    ActivityRecordReadOptions activityRecordReadOptions = ActivityRecordReadOptions(
+    ActivityRecordReadOptions activityRecordReadOptions =
+        ActivityRecordReadOptions(
       activityRecordId: null,
       activityRecordName: null,
       startTime: startTime,
@@ -193,10 +217,14 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
     );
     try {
-      List<ActivityRecord> result = await ActivityRecordsController.getActivityRecord(activityRecordReadOptions);
-      log('getActivityRecord', _activityTextController, LogOptions.success, result: '[IDs: ' + result.map((e) => e.id).toList().toString() + ']');
+      List<ActivityRecord> result =
+          await ActivityRecordsController.getActivityRecord(
+              activityRecordReadOptions);
+      log('getActivityRecord', _activityTextController, LogOptions.success,
+          result: '[IDs: ' + result.map((e) => e.id).toList().toString() + ']');
     } on PlatformException catch (e) {
-      log('getActivityRecord', _activityTextController, LogOptions.error, result: e.message);
+      log('getActivityRecord', _activityTextController, LogOptions.error,
+          result: e.message);
     }
   }
 
@@ -215,7 +243,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       await ActivityRecordsController.beginActivityRecord(activityRecord);
       log('beginActivityRecord', _activityTextController, LogOptions.success);
     } on PlatformException catch (e) {
-      log('beginActivityRecord', _activityTextController, LogOptions.error, error: e.message);
+      log('beginActivityRecord', _activityTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -223,13 +252,16 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void endActivityRecord() async {
     try {
       log('endActivityRecord', _activityTextController, LogOptions.call);
-      final List<ActivityRecord> result = await ActivityRecordsController.endActivityRecord(
+      final List<ActivityRecord> result =
+          await ActivityRecordsController.endActivityRecord(
         'ActivityRecordRun0',
       );
       // Return the list of activity records that have stopped
-      log('endActivityRecord', _activityTextController, LogOptions.success, result: result.toString());
+      log('endActivityRecord', _activityTextController, LogOptions.success,
+          result: result.toString());
     } on PlatformException catch (e) {
-      log('endActivityRecord', _activityTextController, LogOptions.error, result: e.message);
+      log('endActivityRecord', _activityTextController, LogOptions.error,
+          result: e.message);
     }
   }
 
@@ -240,10 +272,13 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     try {
       log('endAllActivityRecords', _activityTextController, LogOptions.call);
       // Return the list of activity records that have stopped
-      List<ActivityRecord> result = await ActivityRecordsController.endAllActivityRecords();
-      log('endAllActivityRecords', _activityTextController, LogOptions.success, result: '[IDs: ' + result.map((e) => e.id).toList().toString() + ']');
+      List<ActivityRecord> result =
+          await ActivityRecordsController.endAllActivityRecords();
+      log('endAllActivityRecords', _activityTextController, LogOptions.success,
+          result: '[IDs: ' + result.map((e) => e.id).toList().toString() + ']');
     } on PlatformException catch (e) {
-      log('endAllActivityRecords', _activityTextController, LogOptions.error, result: e.message);
+      log('endAllActivityRecords', _activityTextController, LogOptions.error,
+          result: e.message);
     }
   }
   //
@@ -285,10 +320,16 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void delete() async {
     log('delete', _dataTextController, LogOptions.call);
     // Build the dataCollector object
-    DataCollector dataCollector = DataCollector(dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, dataGenerateType: DataGenerateType.DATA_TYPE_RAW, dataStreamName: 'STEPS_DELTA');
+    DataCollector dataCollector = DataCollector(
+        dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+        dataGenerateType: DataGenerateType.DATA_TYPE_RAW,
+        dataStreamName: 'STEPS_DELTA');
 
     // Build the time range for the deletion: start time and end time.
-    DeleteOptions deleteOptions = DeleteOptions(dataCollectors: <DataCollector>[dataCollector], startTime: DateTime.parse('2020-10-10 08:00:00'), endTime: DateTime.parse('2020-10-10 12:30:00'));
+    DeleteOptions deleteOptions = DeleteOptions(
+        dataCollectors: <DataCollector>[dataCollector],
+        startTime: DateTime.parse('2020-10-10 08:00:00'),
+        endTime: DateTime.parse('2020-10-10 12:30:00'));
 
     // Call the api with the constructed DeleteOptions instance.
     try {
@@ -304,10 +345,17 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void insert() async {
     log('insert', _dataTextController, LogOptions.call);
     // Build the dataCollector object
-    DataCollector dataCollector = DataCollector(dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, dataStreamName: 'STEPS_DELTA', dataGenerateType: DataGenerateType.DATA_TYPE_RAW);
+    DataCollector dataCollector = DataCollector(
+        dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+        dataStreamName: 'STEPS_DELTA',
+        dataGenerateType: DataGenerateType.DATA_TYPE_RAW);
     // You can use sampleSets to add more sampling points to the sampling dataset.
-    SampleSet sampleSet = SampleSet(
-        dataCollector, <SamplePoint>[SamplePoint(startTime: DateTime.parse('2020-10-10 12:00:00'), endTime: DateTime.parse('2020-10-10 12:12:00'), fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 100))]);
+    SampleSet sampleSet = SampleSet(dataCollector, <SamplePoint>[
+      SamplePoint(
+          startTime: DateTime.parse('2020-10-10 12:00:00'),
+          endTime: DateTime.parse('2020-10-10 12:12:00'),
+          fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 100))
+    ]);
     // Call the api with the constructed sample set.
     try {
       _dataController.insert(sampleSet);
@@ -321,7 +369,10 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void read() async {
     log('read', _dataTextController, LogOptions.call);
     // Build the dataCollector object
-    DataCollector dataCollector = DataCollector(dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, dataGenerateType: DataGenerateType.DATA_TYPE_RAW, dataStreamName: 'STEPS_DELTA');
+    DataCollector dataCollector = DataCollector(
+        dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+        dataGenerateType: DataGenerateType.DATA_TYPE_RAW,
+        dataStreamName: 'STEPS_DELTA');
 
     // Build the time range for the query: start time and end time.
     ReadOptions readOptions = ReadOptions(
@@ -333,7 +384,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     // Call the api with the constructed ReadOptions instance.
     try {
       ReadReply readReply = await _dataController.read(readOptions);
-      log('read', _dataTextController, LogOptions.success, result: readReply.toString());
+      log('read', _dataTextController, LogOptions.success,
+          result: readReply.toString());
     } on PlatformException catch (e) {
       log('read', _dataTextController, LogOptions.error, error: e.message);
     }
@@ -344,10 +396,13 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void readDailySummation() async {
     log('readDailySummation', _dataTextController, LogOptions.call);
     try {
-      SampleSet sampleSet = await _dataController.readDailySummation(DataType.DT_CONTINUOUS_STEPS_DELTA, 20201002, 20201215);
-      log('readDailySummation', _dataTextController, LogOptions.success, result: sampleSet.toString());
+      SampleSet sampleSet = await _dataController.readDailySummation(
+          DataType.DT_CONTINUOUS_STEPS_DELTA, 20201002, 20201215);
+      log('readDailySummation', _dataTextController, LogOptions.success,
+          result: sampleSet.toString());
     } on PlatformException catch (e) {
-      log('readDailySummation', _dataTextController, LogOptions.error, error: e.message);
+      log('readDailySummation', _dataTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -355,10 +410,13 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void readTodaySummation() async {
     log('readTodaySummation', _dataTextController, LogOptions.call);
     try {
-      SampleSet sampleSet = await _dataController.readTodaySummation(DataType.DT_CONTINUOUS_STEPS_DELTA);
-      log('readTodaySummation', _dataTextController, LogOptions.success, result: sampleSet.toString());
+      SampleSet sampleSet = await _dataController
+          .readTodaySummation(DataType.DT_CONTINUOUS_STEPS_DELTA);
+      log('readTodaySummation', _dataTextController, LogOptions.success,
+          result: sampleSet.toString());
     } on PlatformException catch (e) {
-      log('readTodaySummation', _dataTextController, LogOptions.error, error: e.message);
+      log('readTodaySummation', _dataTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -367,21 +425,32 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     log('update', _dataTextController, LogOptions.call);
 
     // Build the dataCollector object
-    DataCollector dataCollector = DataCollector(dataType: DataType.DT_CONTINUOUS_STEPS_DELTA, dataStreamName: 'STEPS_DELTA', dataGenerateType: DataGenerateType.DATA_TYPE_RAW);
+    DataCollector dataCollector = DataCollector(
+        dataType: DataType.DT_CONTINUOUS_STEPS_DELTA,
+        dataStreamName: 'STEPS_DELTA',
+        dataGenerateType: DataGenerateType.DATA_TYPE_RAW);
 
     // You can use sampleSets to add more sampling points to the sampling dataset.
-    SampleSet sampleSet = SampleSet(
-        dataCollector, <SamplePoint>[SamplePoint(startTime: DateTime.parse('2020-12-12 09:00:00'), endTime: DateTime.parse('2020-12-12 09:05:00'), fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 120))]);
+    SampleSet sampleSet = SampleSet(dataCollector, <SamplePoint>[
+      SamplePoint(
+          startTime: DateTime.parse('2020-12-12 09:00:00'),
+          endTime: DateTime.parse('2020-12-12 09:05:00'),
+          fieldValueOptions: FieldInt(Field.FIELD_STEPS_DELTA, 120))
+    ]);
 
     // Build a parameter object for the update.
     // Note: (1) The start time of the modified object updateOptions can not be greater than the minimum
     // value of the start time of all sample data points in the modified data sample set
     // (2) The end time of the modified object updateOptions can not be less than the maximum value of the
     // end time of all sample data points in the modified data sample set
-    UpdateOptions updateOptions = UpdateOptions(startTime: DateTime.parse('2020-12-12 08:00:00'), endTime: DateTime.parse('2020-12-12 09:25:00'), sampleSet: sampleSet);
+    UpdateOptions updateOptions = UpdateOptions(
+        startTime: DateTime.parse('2020-12-12 08:00:00'),
+        endTime: DateTime.parse('2020-12-12 09:25:00'),
+        sampleSet: sampleSet);
     try {
       await _dataController.update(updateOptions);
-      log('update', _dataTextController, LogOptions.success, result: sampleSet.toString());
+      log('update', _dataTextController, LogOptions.success,
+          result: sampleSet.toString());
     } on PlatformException catch (e) {
       log('update', _dataTextController, LogOptions.error, error: e.message);
     }
@@ -399,11 +468,16 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       // The name of the created data type must be prefixed with the package name
       // of the app. Otherwise, the creation fails. If the same data type is tried to
       // be added again an exception will be thrown.
-      DataTypeAddOptions options = DataTypeAddOptions("com.huawei.hms.flutter.health_example.myCustomDataType", [Field.newIntField("myIntField"), Field.FIELD_ALTITUDE]);
-      final DataType dataTypeResult = await SettingController.addDataType(options);
-      log('addDataType', _settingTextController, LogOptions.success, result: dataTypeResult.toString());
+      DataTypeAddOptions options = DataTypeAddOptions(
+          "com.huawei.hms.flutter.health_example.myCustomDataType",
+          [Field.newIntField("myIntField"), Field.FIELD_ALTITUDE]);
+      final DataType dataTypeResult =
+          await SettingController.addDataType(options);
+      log('addDataType', _settingTextController, LogOptions.success,
+          result: dataTypeResult.toString());
     } on PlatformException catch (e) {
-      log('addDataType', _settingTextController, LogOptions.error, error: e.message);
+      log('addDataType', _settingTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -414,9 +488,11 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       final DataType dataTypeResult = await SettingController.readDataType(
         "com.huawei.hms.flutter.health_example.myCustomDataType",
       );
-      log('readDataType', _settingTextController, LogOptions.success, result: dataTypeResult.toString());
+      log('readDataType', _settingTextController, LogOptions.success,
+          result: dataTypeResult.toString());
     } on PlatformException catch (e) {
-      log('readDataType', _settingTextController, LogOptions.error, error: e.message);
+      log('readDataType', _settingTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -432,7 +508,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         LogOptions.success,
       );
     } on PlatformException catch (e) {
-      log('disableHiHealth', _settingTextController, LogOptions.error, error: e.message);
+      log('disableHiHealth', _settingTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -448,7 +525,9 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         LogOptions.success,
       );
     } on PlatformException catch (e) {
-      log('checkHealthAppAuthorization', _settingTextController, LogOptions.error, error: e.message);
+      log('checkHealthAppAuthorization', _settingTextController,
+          LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -458,9 +537,12 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     log('getHealthAppAuthorization', _settingTextController, LogOptions.call);
     try {
       final bool result = await SettingController.getHealthAppAuthorization();
-      log('getHealthAppAuthorization', _settingTextController, LogOptions.success, result: result.toString());
+      log('getHealthAppAuthorization', _settingTextController,
+          LogOptions.success,
+          result: result.toString());
     } on PlatformException catch (e) {
-      log('getHealthAppAuthorization', _settingTextController, LogOptions.error, error: e.message);
+      log('getHealthAppAuthorization', _settingTextController, LogOptions.error,
+          error: e.message);
     }
   }
   //
@@ -472,7 +554,11 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   //
   // Callback function for AutoRecorderStream event.
   void _onAutoRecorderEvent(SamplePoint res) {
-    log("[AutoRecorderEvent] obtained, SamplePoint Field Value is " + res.fieldValues.toString(), _autoRecorderTextController, LogOptions.custom);
+    log(
+        "[AutoRecorderEvent] obtained, SamplePoint Field Value is " +
+            res.fieldValues.toString(),
+        _autoRecorderTextController,
+        LogOptions.custom);
   }
 
   /// Starts an Android Foreground Service to count the steps of the user.
@@ -482,11 +568,17 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     try {
       await AutoRecorderController.startRecord(
         DataType.DT_CONTINUOUS_STEPS_TOTAL,
-        NotificationProperties(title: "HMS Flutter Health Demo", text: "Counting steps", subText: "this is a subtext", ticker: "this is a ticker", showChronometer: true),
+        NotificationProperties(
+            title: "HMS Flutter Health Demo",
+            text: "Counting steps",
+            subText: "this is a subtext",
+            ticker: "this is a ticker",
+            showChronometer: true),
       );
       log('startRecord', _autoRecorderTextController, LogOptions.success);
     } on PlatformException catch (e) {
-      log('startRecord', _autoRecorderTextController, LogOptions.error, error: e.message);
+      log('startRecord', _autoRecorderTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -494,10 +586,12 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
   void stopRecord() async {
     log('endRecord', _autoRecorderTextController, LogOptions.call);
     try {
-      await AutoRecorderController.stopRecord(DataType.DT_CONTINUOUS_STEPS_TOTAL);
+      await AutoRecorderController.stopRecord(
+          DataType.DT_CONTINUOUS_STEPS_TOTAL);
       log('endRecord', _autoRecorderTextController, LogOptions.success);
     } on PlatformException catch (e) {
-      log('endRecord', _autoRecorderTextController, LogOptions.error, error: e.message);
+      log('endRecord', _autoRecorderTextController, LogOptions.error,
+          error: e.message);
     }
   }
   //
@@ -511,9 +605,11 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     log('getAppId', _consentTextController, LogOptions.call);
     try {
       final String appId = await ConsentsController.getAppId();
-      log('getAppId', _consentTextController, LogOptions.success, result: appId);
+      log('getAppId', _consentTextController, LogOptions.success,
+          result: appId);
     } on PlatformException catch (e) {
-      log('getAppId', _consentTextController, LogOptions.error, error: e.message);
+      log('getAppId', _consentTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -522,10 +618,13 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
     log('getScopes', _consentTextController, LogOptions.call);
     try {
       final String appId = await ConsentsController.getAppId();
-      final ScopeLangItem scopeLangItem = await ConsentsController.getScopes('en-gb', appId);
-      log('getScopes', _consentTextController, LogOptions.success, result: scopeLangItem.toString());
+      final ScopeLangItem scopeLangItem =
+          await ConsentsController.getScopes('en-gb', appId);
+      log('getScopes', _consentTextController, LogOptions.success,
+          result: scopeLangItem.toString());
     } on PlatformException catch (e) {
-      log('getScopes', _consentTextController, LogOptions.error, error: e.message);
+      log('getScopes', _consentTextController, LogOptions.error,
+          error: e.message);
     }
   }
 
@@ -554,7 +653,8 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
       ]);
       log('revokeWithScopes', _consentTextController, LogOptions.success);
     } on PlatformException catch (e) {
-      log('revokeWithScopes', _consentTextController, LogOptions.error, error: e.message);
+      log('revokeWithScopes', _consentTextController, LogOptions.error,
+          error: e.message);
     }
   }
   //
@@ -586,7 +686,9 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         margin: componentPadding,
         padding: const EdgeInsets.all(8.0),
         height: 200,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), border: Border.all(color: Colors.black12)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(color: Colors.black12)),
         child: TextField(
           readOnly: true,
           maxLines: 15,
@@ -594,7 +696,7 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
           decoration: InputDecoration(enabledBorder: InputBorder.none),
         ),
       ),
-      TextButton(
+      OutlineButton(
         child: Text('Clear Log'),
         onPressed: () => setState(
           () {
@@ -613,11 +715,11 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
         label: 'Close',
         textColor: Colors.white,
         onPressed: () {
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          Scaffold.of(context).removeCurrentSnackBar();
         },
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -629,7 +731,9 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Huawei Health Kit for Flutter', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+              const Text('Huawei Health Kit for Flutter',
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold)),
               Icon(
                 Icons.local_hospital,
                 color: Colors.blue,
@@ -644,19 +748,25 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
             // Sign In Widgets
             Card(
               margin: componentPadding,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: componentPadding,
-                    child: const Text("Tap to SignIn button to obtain the HMS Account to complete " + "login and authorization, and then use other buttons " + "to try the related API functions.",
+                    child: const Text(
+                        "Tap to SignIn button to obtain the HMS Account to complete " +
+                            "login and authorization, and then use other buttons " +
+                            "to try the related API functions.",
                         textAlign: TextAlign.center),
                   ),
                   Padding(
                     padding: componentPadding,
                     child: Text(
-                      "Note: If the login page is not displayed, change the package " + "name, AppID, and configure the signature file by referring " + "to the developer guide on the official website.",
+                      "Note: If the login page is not displayed, change the package " +
+                          "name, AppID, and configure the signature file by referring " +
+                          "to the developer guide on the official website.",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.blue),
                     ),
@@ -664,20 +774,16 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
                   Container(
                     padding: componentPadding,
                     width: double.infinity,
-                    child: ElevatedButton(
-                        child: Text(
-                          'SignIn',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () => signIn(context),
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                        )),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Text(
+                        'SignIn',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => signIn(context),
+                      color: Colors.blue,
+                    ),
                   ),
                 ],
               ),

@@ -29,7 +29,7 @@ class DataTypeAddOptions {
   Map<String, dynamic> toMap() {
     return {
       "name": name,
-      "fields": List<Map<String, dynamic>>.from(fields.map((e) => e.toMap())),
+      "fields": fields != null ? List<Map<String, dynamic>>.from(fields.map((e) => e.toMap())) : null,
     }..removeWhere((k, v) => v == null);
   }
 

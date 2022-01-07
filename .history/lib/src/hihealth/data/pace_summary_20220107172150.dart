@@ -73,7 +73,7 @@ class PaceSummary {
   @override
   bool operator ==(Object other) {
     if (isTypeEqual(this, other) && other is PaceSummary) {
-      PaceSummary compare = other;
+      PaceSummary compare = other as PaceSummary;
       List<dynamic> currentArgs = [britishPaceMap, britishPartTimeMap, paceMap, partTimeMap, sportHealthPaceMap, avgPace, bestPace];
       List<dynamic> otherArgs = [compare.britishPaceMap, compare.britishPartTimeMap, compare.paceMap, compare.partTimeMap, compare.sportHealthPaceMap, compare.avgPace, compare.bestPace];
       return isEquals(this, other, currentArgs, otherArgs);

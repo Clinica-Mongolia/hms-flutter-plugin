@@ -676,8 +676,9 @@ class _HealthKitDemoState extends State<HealthKitDemo> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                        )),
+                        )
+                        // color: Colors.blue,
+                        ),
                   ),
                 ],
               ),

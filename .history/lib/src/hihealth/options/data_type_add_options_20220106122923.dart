@@ -29,7 +29,9 @@ class DataTypeAddOptions {
   Map<String, dynamic> toMap() {
     return {
       "name": name,
-      "fields": List<Map<String, dynamic>>.from(fields.map((e) => e.toMap())),
+      "fields": fields != null
+          ? List<Map<String, dynamic>>.from(fields.map((e) => e.toMap()))
+          : null,
     }..removeWhere((k, v) => v == null);
   }
 
@@ -40,13 +42,11 @@ class DataTypeAddOptions {
 
   @override
   bool operator ==(Object other) {
-    if (isTypeEqual(this, other) && other is DataTypeAddOptions) {
-      DataTypeAddOptions compare = other;
-      List<dynamic> currentArgs = [name, fields];
-      List<dynamic> otherArgs = [compare.name, compare.fields];
-      return isEquals(this, other, currentArgs, otherArgs);
-    }
-    return false;
+    if (!isTypeEqual(this, other)) return false;
+    DataTypeAddOptions compare = other as DataTypeAddOptions;
+    List<dynamic> currentArgs = [name, fields];
+    List<dynamic> otherArgs = [compare.name, compare.fields];
+    return isEquals(this, other, currentArgs, otherArgs);
   }
 
   @override

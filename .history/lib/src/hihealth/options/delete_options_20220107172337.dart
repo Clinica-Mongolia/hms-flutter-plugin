@@ -76,13 +76,11 @@ class DeleteOptions {
 
   @override
   bool operator ==(Object other) {
-    if (isTypeEqual(this, other) && other is DeleteOptions) {
-      DeleteOptions compare = other;
-      List<dynamic> currentArgs = [deleteAllData, deleteAllActivityRecords, activityRecords, dataCollectors, dataTypes, startTime, endTime];
-      List<dynamic> otherArgs = [compare.deleteAllData, compare.deleteAllActivityRecords, compare.activityRecords, compare.dataCollectors, compare.dataTypes, compare.startTime, compare.endTime];
-      return isEquals(this, other, currentArgs, otherArgs);
-    }
-    return false;
+    if (!isTypeEqual(this, other)) return false;
+    DeleteOptions compare = other as DeleteOptions;
+    List<dynamic> currentArgs = [deleteAllData, deleteAllActivityRecords, activityRecords, dataCollectors, dataTypes, startTime, endTime];
+    List<dynamic> otherArgs = [compare.deleteAllData, compare.deleteAllActivityRecords, compare.activityRecords, compare.dataCollectors, compare.dataTypes, compare.startTime, compare.endTime];
+    return isEquals(this, other, currentArgs, otherArgs);
   }
 
   @override

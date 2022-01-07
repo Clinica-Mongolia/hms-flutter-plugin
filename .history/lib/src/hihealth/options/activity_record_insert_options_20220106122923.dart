@@ -30,16 +30,14 @@ class ActivityRecordInsertOptions {
   /// Checks whether two activity records objects are equal.
   @override
   bool operator ==(Object other) {
-    if (isTypeEqual(this, other) && other is ActivityRecordInsertOptions) {
-      ActivityRecordInsertOptions compare = other;
-      List<dynamic> currentArgs = [activityRecord, sampleSets];
-      List<dynamic> otherArgs = [
-        compare.activityRecord,
-        compare.sampleSets,
-      ];
-      return isEquals(this, other, currentArgs, otherArgs);
-    }
-    return false;
+    if (!isTypeEqual(this, other)) return false;
+    ActivityRecordInsertOptions compare = other as ActivityRecordInsertOptions;
+    List<dynamic> currentArgs = [activityRecord, sampleSets];
+    List<dynamic> otherArgs = [
+      compare.activityRecord,
+      compare.sampleSets,
+    ];
+    return isEquals(this, other, currentArgs, otherArgs);
   }
 
   /// Calculates the ActivityRecordInsertOptions hash value.
@@ -49,7 +47,8 @@ class ActivityRecordInsertOptions {
   Map<String, dynamic> toMap() {
     return {
       "activityRecord": activityRecord?.toMap(),
-      "sampleSets": List<Map<String, dynamic>>.from(sampleSets!.map((e) => e.toMap())),
+      "sampleSets":
+          List<Map<String, dynamic>>.from(sampleSets!.map((e) => e.toMap())),
     }..removeWhere((k, v) => v == null);
   }
 

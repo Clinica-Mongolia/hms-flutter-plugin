@@ -16,11 +16,13 @@
 
 import 'package:flutter/services.dart';
 import 'package:huawei_health/huawei_health.dart';
+import 'package:huawei_health/src/hihealth/data/scope_lang_item.dart';
 
 /// Provides authorization management APIs that can be used to view and revoke
 /// the granted permissions.
 class ConsentsController {
-  static const MethodChannel _channel = health_setting_controller_method_channel;
+  static const MethodChannel _channel =
+      health_setting_controller_method_channel;
 
   /// Obtains the application id from the agconnect-services.json file.
   static Future<String?> getAppId() async {
@@ -41,7 +43,10 @@ class ConsentsController {
 
   /// Revokes certain Health Kit related permissions granted to your app.
   static Future<void> revokeWithScopes(String appId, List<Scope> scopes) async {
-    Map<String, dynamic> callMap = {"appId": appId, "scopes": List<String>.from(scopes.map((e) => e.scopeStr))};
+    Map<String, dynamic> callMap = {
+      "appId": appId,
+      "scopes": List<String>.from(scopes.map((e) => e.scopeStr))
+    };
     await _channel.invokeMethod('revokeWithScopes', callMap);
   }
 }
