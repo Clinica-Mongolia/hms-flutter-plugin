@@ -22,22 +22,17 @@ class ActivityRecordsController {
   static final MethodChannel _channel = health_activity_record_method_channel;
 
   /// Inserts a specified activity record and corresponding data to the HUAWEI Health platform.
-  static Future<String> addActivityRecord(
-      ActivityRecordInsertOptions activityRecordInsertOptions) async {
-    final res = await _channel.invokeMethod(
-        "addActivityRecord", activityRecordInsertOptions.toMap());
+  static Future<String> addActivityRecord(ActivityRecordInsertOptions activityRecordInsertOptions) async {
+    final res = await _channel.invokeMethod("addActivityRecord", activityRecordInsertOptions.toMap());
     return res.toString();
   }
 
   /// Reads [ActivityRecord] data from the HUAWEI Health platform.
-  static Future<List<ActivityRecord>> getActivityRecord(
-      ActivityRecordReadOptions activityRecordReadOptions) async {
-    final List res = await (_channel.invokeMethod<List>(
-        "getActivityRecord", activityRecordReadOptions.toMap()) as FutureOr<List<dynamic>>);
+  static Future<List<ActivityRecord>> getActivityRecord(ActivityRecordReadOptions activityRecordReadOptions) async {
+    final List res = await (_channel.invokeMethod<List>("getActivityRecord", activityRecordReadOptions.toMap()));
     List<ActivityRecord> records = [];
     for (var e in res) {
-      records.add(ActivityRecord.fromMap(
-          Map<String, dynamic>.from(e['activityRecord'])));
+      records.add(ActivityRecord.fromMap(Map<String, dynamic>.from(e['activityRecord'])));
     }
     return records;
   }
@@ -48,10 +43,8 @@ class ActivityRecordsController {
   }
 
   /// Stops the ActivityRecord of a specific ID.
-  static Future<List<ActivityRecord>> endActivityRecord(
-      String activityRecordId) async {
-    final List res = await (_channel.invokeMethod<List>(
-        "endActivityRecord", activityRecordId) as FutureOr<List<dynamic>>);
+  static Future<List<ActivityRecord>> endActivityRecord(String activityRecordId) async {
+    final List res = await (_channel.invokeMethod<List>("endActivityRecord", activityRecordId));
     List<ActivityRecord> records = [];
     for (var e in res) {
       records.add(ActivityRecord.fromMap(Map<String, dynamic>.from(e)));
@@ -61,7 +54,7 @@ class ActivityRecordsController {
 
   /// Stops all the ongoing Activity records.
   static Future<List<ActivityRecord>> endAllActivityRecords() async {
-    final List res = await (_channel.invokeMethod<List>("endAllActivityRecords") as FutureOr<List<dynamic>>);
+    final List res = await _channel.invokeMethod<List>("endAllActivityRecords");
     List<ActivityRecord> records = [];
     for (var e in res) {
       records.add(ActivityRecord.fromMap(Map<String, dynamic>.from(e)));

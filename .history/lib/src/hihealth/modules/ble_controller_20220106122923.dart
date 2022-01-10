@@ -46,19 +46,12 @@ class BleController {
     List<DataType> dataTypes,
     int timeoutSecs,
   ) async {
-    _channel.invokeMethod('beginScan', {
-      "dataTypes":
-          List<Map<String, dynamic>>.from(dataTypes.map((e) => e.toMap())),
-      "timeoutSecs": timeoutSecs
-    });
+    _channel.invokeMethod('beginScan', {"dataTypes": List<Map<String, dynamic>>.from(dataTypes.map((e) => e.toMap())), "timeoutSecs": timeoutSecs});
   }
 
   /// The getter for the stream that emits the [BleDeviceInfo] of the discovered
   /// BLE devices with the [beginScan] method.
-  static Stream<BleDeviceInfo> get bleScanStream => _eventChannel
-      .receiveBroadcastStream()
-      .map((event) => event = BleDeviceInfo.fromMap(jsonDecode(event)))
-      .cast<BleDeviceInfo>();
+  static Stream<BleDeviceInfo> get bleScanStream => _eventChannel.receiveBroadcastStream().map((event) => event = BleDeviceInfo.fromMap(jsonDecode(event))).cast<BleDeviceInfo>();
 
   /// Stops the current scanning.
   static Future<bool?> endScan() async {
@@ -77,7 +70,7 @@ class BleController {
 
   /// Obtains all saved devices.
   static Future<List<BleDeviceInfo>> getSavedDevices() async {
-    final List result = await (_channel.invokeMethod('getSavedDevices') as FutureOr<List<dynamic>>);
+    final List result = await _channel.invokeMethod('getSavedDevices');
     List<BleDeviceInfo> bleDevices = <BleDeviceInfo>[];
     for (var e in result) {
       bleDevices.add(BleDeviceInfo.fromMap(Map<String, dynamic>.from(e)));

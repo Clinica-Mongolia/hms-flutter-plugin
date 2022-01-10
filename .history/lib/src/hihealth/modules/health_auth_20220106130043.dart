@@ -32,7 +32,7 @@ class HealthAuth {
     scopes.forEach((e) {
       scopeStrList.add(e.scopeStr);
     });
-    String jsonResult = await (_channel.invokeMethod("signIn", {"scopes": scopeStrList}) as FutureOr<String>);
+    String jsonResult = await _channel.invokeMethod("signIn", {"scopes": scopeStrList});
     return AuthHuaweiId.fromMap(jsonDecode(jsonResult));
   }
 }

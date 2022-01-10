@@ -31,7 +31,7 @@ class ActivityRecordsController {
 
   /// Reads [ActivityRecord] data from the HUAWEI Health platform.
   static Future<List<ActivityRecord>> getActivityRecord(ActivityRecordReadOptions activityRecordReadOptions) async {
-    final List res = await (_channel.invokeMethod<List>("getActivityRecord", activityRecordReadOptions.toMap()) as FutureOr<List<dynamic>>);
+    final List res = await _channel.invokeMethod<List>("getActivityRecord", activityRecordReadOptions.toMap());
     List<ActivityRecord> records = [];
     for (var e in res) {
       records.add(ActivityRecord.fromMap(Map<String, dynamic>.from(e['activityRecord'])));
@@ -46,7 +46,7 @@ class ActivityRecordsController {
 
   /// Stops the ActivityRecord of a specific ID.
   static Future<List<ActivityRecord>> endActivityRecord(String activityRecordId) async {
-    final List res = await (_channel.invokeMethod<List>("endActivityRecord", activityRecordId) as FutureOr<List<dynamic>>);
+    final List res = await _channel.invokeMethod<List>("endActivityRecord", activityRecordId);
     List<ActivityRecord> records = [];
     for (var e in res) {
       records.add(ActivityRecord.fromMap(Map<String, dynamic>.from(e)));

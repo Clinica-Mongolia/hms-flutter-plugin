@@ -69,7 +69,7 @@ class BleController {
 
   /// Obtains all saved devices.
   static Future<List<BleDeviceInfo>> getSavedDevices() async {
-    final List result = await (_channel.invokeMethod('getSavedDevices') as FutureOr<List<dynamic>>);
+    final List result = await _channel.invokeMethod('getSavedDevices');
     List<BleDeviceInfo> bleDevices = <BleDeviceInfo>[];
     for (var e in result) {
       bleDevices.add(BleDeviceInfo.fromMap(Map<String, dynamic>.from(e)));
